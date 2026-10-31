@@ -163,6 +163,23 @@ p{margin:0}
 @keyframes label-in{from{opacity:0;translate:0 8px}}
 .form__note{font-size:14px;color:var(--graphite)}
 
+
+/* обо мне */
+.about{max-width:var(--max);margin:0 auto;padding:clamp(48px,8vw,120px) var(--pad);display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:center;border-top:1px solid var(--line)}
+.about__photo{margin:0;border-radius:var(--r-card);overflow:hidden;clip-path:inset(0 round var(--r-card));-webkit-clip-path:inset(0 round var(--r-card));aspect-ratio:4/5;background:var(--line)}
+.about__photo img{width:100%;height:100%;object-fit:cover}
+.about h2{font-size:clamp(48px,7.5vw,112px);line-height:.95;margin-bottom:clamp(24px,3vw,40px)}
+.about__text>p{max-width:34em;color:var(--graphite);font-size:clamp(17px,1.3vw,19px)}
+.about__text>p+p{margin-top:16px}
+.about__lead{color:var(--ink)!important;font-size:clamp(20px,1.7vw,24px)!important;line-height:1.4}
+.facts{margin:32px 0 0;max-width:36em}
+.facts div{display:grid;grid-template-columns:9.5em 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--line)}
+.facts div:last-child{border-bottom:1px solid var(--line)}
+.facts dt{color:var(--graphite);font-size:15px}
+.facts dd{margin:0}
+@media (max-width:900px){.about{grid-template-columns:1fr}.about__photo{max-width:440px}}
+@media (max-width:480px){.facts div{grid-template-columns:1fr;gap:2px}}
+
 /* подвал */
 .foot{max-width:var(--max);margin:0 auto;padding:28px var(--pad) 40px;display:flex;flex-wrap:wrap;gap:10px 32px;font-size:14px;color:var(--graphite);border-top:1px solid var(--line)}
 .foot a{text-decoration:none;color:var(--ink)}
@@ -198,6 +215,14 @@ p{margin:0}
   .js .work.is-in .win__view{scale:1}
   .js .work__text>*{opacity:0;translate:0 18px;transition:opacity .7s var(--ease-out),translate .8s var(--ease-out);transition-delay:calc(450ms + var(--i,0) * 70ms)}
   .js .work.is-in .work__text>*{opacity:1;translate:0 0}
+
+
+  .js .about__photo{clip-path:inset(100% 0 0 0 round var(--r-card));-webkit-clip-path:inset(100% 0 0 0 round var(--r-card));transition:clip-path 1.3s var(--ease-in-out),-webkit-clip-path 1.3s var(--ease-in-out)}
+  .js .about__photo img{translate:0 14%;scale:1.12;transition:translate 1.6s var(--ease-soft),scale 1.6s var(--ease-soft)}
+  .js .about.is-in .about__photo{clip-path:inset(0 round var(--r-card));-webkit-clip-path:inset(0 round var(--r-card))}
+  .js .about.is-in .about__photo img{translate:0 0;scale:1}
+  .js .about__text>p,.js .facts div{opacity:0;translate:0 18px;transition:opacity .7s var(--ease-out),translate .8s var(--ease-out);transition-delay:calc(500ms + var(--i,0) * 80ms)}
+  .js .about.is-in .about__text>p,.js .about.is-in .facts div{opacity:1;translate:0 0}
 
   .js .contact__intro p,.js .form{opacity:0;translate:0 24px;transition:opacity .8s var(--ease-out),translate .9s var(--ease-out)}
   .js .contact.is-in .contact__intro p{opacity:1;translate:0 0;transition-delay:.3s}

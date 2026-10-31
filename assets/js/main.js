@@ -35,7 +35,8 @@
     },
     { rootMargin: "0px 0px -12% 0px", threshold: 0.12 }
   );
-  document.querySelectorAll(".work, .contact, .sec-head").forEach((el) => io.observe(el));
+  document.querySelectorAll(".about__text>p, .facts div").forEach((el, i, all) => el.style.setProperty("--i", i));
+  document.querySelectorAll(".work, .about, .contact, .sec-head").forEach((el) => io.observe(el));
 
   /* окна: сайт прокручивается внутри */
   const wins = [...document.querySelectorAll(".win")];
