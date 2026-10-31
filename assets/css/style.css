@@ -173,6 +173,31 @@ p{margin:0}
 .chat__bubble{position:relative;background:var(--white);padding:14px 18px;border-radius:20px 20px 20px 6px;font-size:clamp(17px,1.35vw,19px);line-height:1.45;box-shadow:0 1px 0 var(--line);transition:transform var(--t-ui) var(--ease-out)}
 @media (hover:hover) and (pointer:fine){.chat:hover .chat__bubble{transform:translateY(-3px)}.chat:hover .chat__nick{color:var(--signal)}}
 
+/* плавающее сообщение */
+.toast{position:fixed;left:max(20px,env(safe-area-inset-left));bottom:max(20px,env(safe-area-inset-bottom));z-index:40;width:min(400px,calc(100vw - 40px));translate:0 calc(100% + 40px);opacity:0;transition:translate .7s var(--ease-expo),opacity .4s var(--ease-out);pointer-events:none}
+.toast.is-shown{translate:0 0;opacity:1;pointer-events:auto}
+.toast[hidden]{display:block;visibility:hidden}
+.toast.is-shown[hidden]{visibility:visible}
+.toast__card{display:flex;align-items:flex-start;gap:12px;padding:14px 44px 14px 14px;background:var(--white);border-radius:22px 22px 22px 8px;box-shadow:0 1px 0 var(--line),0 24px 50px -20px rgba(20,21,24,.35);text-decoration:none;color:var(--ink);transition:transform var(--t-ui) var(--ease-out)}
+.toast__ava{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none}
+.toast__body{display:grid;gap:4px;min-width:0}
+.toast__name{font-weight:500;font-size:14px}
+.toast__nick{font-weight:400;color:var(--graphite);margin-left:4px}
+.toast__text{display:grid;font-size:15px;line-height:1.4}
+.toast__text>*{grid-area:1/1}
+.toast__msg{opacity:0;transition:opacity .35s var(--ease-out)}
+.toast.is-typed .toast__msg{opacity:1}
+.typing{display:inline-flex;gap:4px;align-items:center;height:21px;transition:opacity .2s}
+.toast.is-typed .typing{opacity:0}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--graphite);opacity:.35;animation:dot 1s ease-in-out infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{40%{opacity:1;translate:0 -3px}}
+.toast__close{position:absolute;top:8px;right:8px;width:32px;height:32px;display:grid;place-items:center;border:0;border-radius:50%;background:transparent;color:var(--graphite);cursor:pointer;transition:background var(--t-hover),color var(--t-hover)}
+.toast__close svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+@media (hover:hover) and (pointer:fine){.toast__card:hover{transform:translateY(-3px)}.toast__card:hover .toast__nick{color:var(--signal)}.toast__close:hover{background:var(--fog);color:var(--ink)}}
+@media (max-width:640px){.toast{left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));width:auto}.toast__text{font-size:14px}}
+@media (prefers-reduced-motion:reduce){.toast{transition:opacity .3s}.typing i{animation:none;opacity:.6}}
+
 /* подвал */
 .foot{max-width:var(--max);margin:0 auto;padding:28px var(--pad) 40px;display:flex;flex-wrap:wrap;gap:10px 32px;font-size:14px;color:var(--graphite);border-top:1px solid var(--line)}
 .foot a{text-decoration:none;color:var(--ink)}

@@ -122,6 +122,33 @@
     });
   }
 
+  /* плавающее сообщение: появляется через несколько секунд, прячется у формы */
+  const toast = document.querySelector("[data-toast]");
+  const contact = document.getElementById("contact");
+  if (toast) {
+    let closed = false, ready = false, nearForm = false;
+    try { closed = sessionStorage.getItem("toast-closed") === "1"; } catch (_) {}
+    const sync = () => {
+      const show = ready && !closed && !nearForm;
+      if (show) toast.hidden = false;
+      toast.classList.toggle("is-shown", show);
+    };
+    new IntersectionObserver((es) => { nearForm = es[0].isIntersecting; sync(); }, { threshold: 0.15 }).observe(contact);
+    if (!closed) {
+      setTimeout(() => {
+        ready = true; sync();
+        setTimeout(() => toast.classList.add("is-typed"), reduce ? 0 : 1600);
+      }, 4000);
+    }
+    toast.querySelector(".toast__close").addEventListener("click", () => {
+      closed = true; sync();
+      try { sessionStorage.setItem("toast-closed", "1"); } catch (_) {}
+    });
+    toast.querySelector(".toast__card").addEventListener("click", () => {
+      setTimeout(() => document.getElementById("f-name").focus({ preventScroll: true }), 700);
+    });
+  }
+
   /* заявка → Telegram */
   const form = document.getElementById("brief");
   const label = form.querySelector("[data-label]");

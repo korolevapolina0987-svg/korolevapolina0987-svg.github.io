@@ -10,7 +10,7 @@
 <meta property="og:image" content="assets/img/cherry-lady-phone.webp">
 <meta name="theme-color" content="#ECEDEF">
 <link rel="preload" href="assets/fonts/inter-tight-cyrillic-300-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css?v=7">
 <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
@@ -205,8 +205,22 @@
   <span class="foot__note">Концепты в портфолио: студии, цены и контакты в них вымышлены.</span>
 </footer>
 
+<aside class="toast" data-toast aria-label="Сообщение от Королевой Полины" hidden>
+  <a class="toast__card" href="#contact">
+    <img class="toast__ava" src="assets/img/polina-face.webp" alt="" width="240" height="240">
+    <span class="toast__body">
+      <span class="toast__name">Королева Полина <span class="toast__nick">@pollykor</span></span>
+      <span class="toast__text" aria-live="polite">
+        <span class="typing" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="toast__msg">Привет! Расскажите, чем занимаетесь, а я предложу, каким может быть сайт именно для вас.</span>
+      </span>
+    </span>
+  </a>
+  <button class="toast__close" type="button" aria-label="Скрыть сообщение"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+</aside>
+
 <div class="cursor" aria-hidden="true"><span>Открыть сайт</span></div>
 
-<script src="assets/js/main.js" defer></script>
+<script src="assets/js/main.js?v=7" defer></script>
 </body>
 </html>
