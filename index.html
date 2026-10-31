@@ -19,7 +19,6 @@
   <a class="top__name" href="#top">Королева Полина</a>
   <nav class="top__nav" aria-label="Разделы">
     <a href="#works">Работы</a>
-    <a href="#about">Обо мне</a>
     <a href="#contact">Связаться</a>
   </nav>
   <a class="btn btn--small" href="https://t.me/pollykor" target="_blank" rel="noopener">Telegram</a>
@@ -157,27 +156,16 @@
     </article>
   </section>
 
-  <section class="about" id="about" aria-labelledby="about-title">
-    <figure class="about__photo">
-      <img src="assets/img/polina.webp" alt="Королева Полина в сером пиджаке и очках у окна" width="880" height="1100" loading="lazy">
-    </figure>
-    <div class="about__text">
-      <h2 id="about-title" data-split>Обо мне</h2>
-      <p class="about__lead">Я Королева Полина, живу в Калининграде и делаю сайты для местного бизнеса: студий, школ, мастеров и тех, кто только открылся.</p>
-      <p>До сайтов работала SMM-менеджером в IT-компании и монтировала видео. Поэтому думаю не только о том, как сайт выглядит, но и о том, как клиент найдёт его из соцсетей и откроет с телефона.</p>
-      <dl class="facts">
-        <div><dt>Учусь</dt><dd>КГТУ, корпоративные информационные системы</dd></div>
-        <div><dt>Раньше</dt><dd>SMM в IT-компании, монтаж видео</dd></div>
-        <div><dt>После запуска</dt><dd>Месяц поддержки: правлю тексты, цены и фото</dd></div>
-      </dl>
-    </div>
-  </section>
-
   <section class="contact" id="contact" aria-labelledby="contact-title">
     <div class="contact__intro">
       <h2 id="contact-title" data-split>Обсудим ваш сайт</h2>
-      <p>Расскажите в двух словах, чем занимаетесь. Я отвечу в Telegram и предложу, каким может быть сайт именно для вас.</p>
-      <p class="contact__direct">Или напишите сразу: <a href="https://t.me/pollykor" target="_blank" rel="noopener">@pollykor</a></p>
+      <a class="chat" href="https://t.me/pollykor" target="_blank" rel="noopener" aria-label="Написать Королевой Полине в Telegram">
+        <img class="chat__ava" src="assets/img/polina-face.webp" alt="" width="240" height="240" loading="lazy">
+        <span class="chat__body">
+          <span class="chat__name">Королева Полина <span class="chat__nick">@pollykor</span></span>
+          <span class="chat__bubble">Привет! Расскажите, чем занимаетесь, а я предложу, каким может быть сайт именно для вас.</span>
+        </span>
+      </a>
     </div>
 
     <form class="form" id="brief" novalidate>
