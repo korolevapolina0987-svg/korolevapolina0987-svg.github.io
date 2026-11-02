@@ -196,7 +196,7 @@ function renderSend(){
   const text=buildText();
   $("#next").hidden=true;
   $("#form").innerHTML=`<section class="sheet send"><h2>Почти готово</h2>
-   <p>Проверьте ответы. Кнопка ниже откроет Telegram: выберите чат <span class="handle">@${CONFIG.telegram}</span> и отправьте сообщение. Если Telegram не открылся, скопируйте ответы и вставьте их в чат вручную.</p>
+   <p>Проверьте ответы и нажмите «Отправить в Telegram». Ответы скопируются, и откроется чат <span class="handle">@${CONFIG.telegram}</span>. Там нажмите на поле сообщения, выберите «Вставить» и отправьте.</p>
    <div class="summary" id="sum">${esc(text)}</div>
    <div class="chips">
     <button class="btn" id="share" type="button">Отправить в Telegram</button>
@@ -207,9 +207,10 @@ function renderSend(){
     const r=document.createRange();r.selectNodeContents($("#sum"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Выделено — нажмите «Копировать»");return false;}};
   $("#copy").onclick=copy;
   $("#share").onclick=async()=>{
-    if(navigator.share){try{await navigator.share({text});return;}catch(e){if(e&&e.name==="AbortError")return;}}
-    await copy();
-    const a=document.createElement("a");a.href=`https://t.me/${CONFIG.telegram}`;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+    let ok=false;try{await navigator.clipboard.writeText(text);ok=true;}catch(e){}
+    if(!ok){await copy();return;}
+    toast("Ответы скопированы. Открываю Telegram…");
+    setTimeout(()=>{location.href=`https://t.me/${CONFIG.telegram}`;},900);
   };
 }
 
