@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<title>Анкета для родителей</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Neucha&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: одна колонка-«тетрадь в клетку» с красными полями; анкета идёт по шагам, внизу липкая панель с кнопками. */
+:root{
+  --paper:#F7FAFD; --grid:#DCE7F2; --sheet:#FFFFFF; --ink:#1E2F55; --muted:#5D6B86; --line:#CFDBEA;
+  --pen:#2E55C9; --pen-soft:#E3EAFB; --margin:#E2707A; --ok:#2F8A5B; --ok-soft:#E1F3E9; --warn:#C2412F;
+  --f-hand:"Neucha","Comic Sans MS","Trebuchet MS",cursive;
+  --f-body:"Golos Text","Segoe UI",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#111A2C; --grid:#1B2740; --sheet:#17223A; --ink:#E7EDF8; --muted:#9FAECB; --line:#2B3B5C;
+  --pen:#8EA9FF; --pen-soft:#22325A; --margin:#F08A93; --ok:#6FD39C; --ok-soft:#173A2A; --warn:#FF8B78; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#111A2C; --grid:#1B2740; --sheet:#17223A; --ink:#E7EDF8; --muted:#9FAECB; --line:#2B3B5C;
+  --pen:#8EA9FF; --pen-soft:#22325A; --margin:#F08A93; --ok:#6FD39C; --ok-soft:#173A2A; --warn:#FF8B78; color-scheme:dark}
+html,body{min-height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.5;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:22px 22px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:720px;margin:0 auto;padding-block:24px 120px;display:flex;flex-direction:column;gap:18px}
+h1,h2{font-family:var(--f-hand);font-weight:400;margin:0;text-wrap:balance;line-height:1.1}
+h1{font-size:clamp(34px,6vw,48px);color:var(--pen)}
+h2{font-size:clamp(28px,4.6vw,36px)}
+p{margin:0}
+.muted{color:var(--muted)}
+.intro{display:flex;flex-direction:column;gap:8px}
+.steps{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px;font-weight:600;color:var(--muted)}
+.steps span{padding:4px 10px;border-radius:999px;border:1.5px solid var(--line);background:var(--sheet)}
+.steps span.on{border-color:var(--pen);color:var(--pen);background:var(--pen-soft)}
+.steps span.done{border-color:var(--ok);color:var(--ok)}
+.sheet{background:var(--sheet);border:1.5px solid var(--line);border-radius:6px 18px 18px 6px;padding:22px 20px 26px 34px;position:relative;
+  display:flex;flex-direction:column;gap:22px;box-shadow:0 2px 0 var(--line)}
+.sheet::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:2px;background:var(--margin);opacity:.7}
+.q{display:flex;flex-direction:column;gap:8px;min-width:0}
+.q > label,.q > .lbl{font-weight:700}
+.q small{font-size:14px;color:var(--muted);font-weight:400}
+input[type=text],textarea{width:100%;box-sizing:border-box;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+textarea{min-height:84px;resize:vertical}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--pen);box-shadow:0 0 0 3px var(--pen-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:inherit;font-size:15px;font-weight:600;color:var(--ink);background:var(--sheet);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer;min-height:40px}
+.chip[aria-pressed="true"]{border-color:var(--pen);background:var(--pen-soft);color:var(--pen)}
+.chip:focus-visible,.btn:focus-visible{outline:3px solid var(--pen);outline-offset:2px}
+.sw{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-right:6px;border:1px solid #0002}
+.note{font-size:14px;color:var(--muted);border-left:3px solid var(--margin);padding-left:10px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--pen);flex:none}
+.err{color:var(--warn);font-weight:600;font-size:15px}
+.bar{position:fixed;left:0;right:0;bottom:0;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(6px);border-top:1.5px solid var(--line);
+  padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:5}
+.bar .in{max-width:720px;margin:0 auto;display:flex;gap:10px;justify-content:flex-end}
+.bar #back{margin-right:auto}
+.btn{font:inherit;font-weight:700;font-size:16px;border-radius:14px;padding:12px 20px;min-height:50px;cursor:pointer;border:1.5px solid var(--pen);background:var(--pen);color:var(--sheet)}
+.btn.ghost{background:var(--sheet);color:var(--pen)}
+.btn[hidden]{display:none}
+.summary{white-space:pre-wrap;font-size:15px;background:var(--paper);border:1.5px dashed var(--line);border-radius:12px;padding:14px;max-height:320px;overflow:auto}
+.send{display:flex;flex-direction:column;gap:10px}
+.handle{font-weight:700;color:var(--pen);user-select:all}
+.toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-weight:600;z-index:9}
+@media (max-width:480px){.sheet{padding:18px 14px 22px 28px}.sheet::before{left:14px}}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:in .25s ease-out}@keyframes in{from{transform:translateY(6px);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+</head><body>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>Игра для вашего ребёнка</h1>
+    <p class="muted">Пять коротких шагов, около 5 минут. По ответам я соберу игру по учебнику вашего ребёнка и оформлю её под его интересы. Если на что-то нет ответа, вопрос можно пропустить.</p>
+    <nav class="steps" id="steps" aria-label="Шаги анкеты"></nav>
+  </header>
+  <main id="form"></main>
+</div>
+<div class="bar"><div class="in">
+  <button class="btn ghost" id="back" type="button">Назад</button>
+  <button class="btn" id="next" type="button">Дальше</button>
+</div></div>
+
+<script>
+/* ===== НАСТРОЙКИ ===== */
+const CONFIG = {
+  telegram: "pollykor",   // ник в Telegram без @
+  policyUrl: ""           // ссылка на политику обработки данных; пусто — ссылка не показывается
+};
+
+const STEPS = [
+ {name:"Ребёнок", title:"Знакомимся", qs:[
+  {id:"name",type:"text",label:"Как зовут ребёнка?",hint:"Как к нему обращаться в игре: имя или прозвище. Фамилия не нужна."},
+  {id:"grade",type:"one",label:"В каком классе?",opts:["1","2","3","4","5","6","7","8","9","10","11"]},
+  {id:"age",type:"text",label:"Сколько лет?",short:true}
+ ]},
+ {name:"Учёба", title:"Что учим", qs:[
+  {id:"subject",type:"many",label:"Какой предмет нужен?",opts:["География","История","Биология","Математика","Русский язык","Литература","Окружающий мир","Английский","Обществознание","Физика"],other:true},
+  {id:"book",type:"text",label:"Какой учебник?",hint:"Авторы, серия или год издания. Проще всего потом прислать фото обложки и оглавления в Telegram."},
+  {id:"topics",type:"area",label:"Какие темы нужны сейчас?",hint:"Например: параграфы 7–11, текущая четверть или повторение пройденного."},
+  {id:"hard",type:"many",label:"Что даётся труднее всего?",opts:["Термины","Даты","Карты","Задачи","Правила","Длинные тексты","Запомнить надолго"],other:true},
+  {id:"minutes",type:"one",label:"Сколько минут подряд ребёнок может заниматься?",opts:["5–10","10–20","20–30","Больше 30"]},
+  {id:"read",type:"one",label:"Как ребёнку удобнее с текстом?",opts:["Читает сам","Лучше слушать","По-разному"]},
+  {id:"style",type:"many",label:"Что важно учесть в подаче?",opts:["Быстро отвлекается","Расстраивается из-за ошибок","Любит соревноваться","Любит истории","Нужен спокойный темп"],other:true}
+ ]},
+ {name:"Интересы", title:"Что любит ребёнок",note:"Из этих ответов собирается оформление игры: герой, мир, награды.",qs:[
+  {id:"hobby",type:"area",label:"Хобби и увлечения",hint:"Спорт, рисование, рыбалка, конструкторы, музыка — всё, чем он занят в свободное время."},
+  {id:"animals",type:"text",label:"Любимые животные"},
+  {id:"colors",type:"many",label:"Любимые цвета",colors:{"Красный":"#E04B4B","Оранжевый":"#F28C28","Жёлтый":"#F2C94C","Зелёный":"#3BAA5C","Голубой":"#56B4E9","Синий":"#2F5BD3","Фиолетовый":"#8A5CD6","Розовый":"#EE7DB3","Чёрный":"#222","Белый":"#fff"},other:true},
+  {id:"media",type:"area",label:"Любимые игры, мультики, книги",hint:"Нужно, чтобы понять настроение. Чужих персонажей в игре не будет: сделаю похожий мир со своими героями."},
+  {id:"dream",type:"area",label:"О чём мечтает, что хотел бы построить или собрать?",hint:"Например: свой курятник, космическую станцию, команду футболистов. Вокруг этого строится вся мотивация в игре."}
+ ]},
+ {name:"Награды", title:"Что мотивирует",qs:[
+  {id:"motive",type:"many",label:"Что ребёнку интереснее?",opts:["Собирать коллекцию","Строить что-то своё","Открывать новые уровни","Бить свой рекорд","Проходить историю-приключение"],other:true},
+  {id:"real",type:"one",label:"Хотите связать игру с реальными наградами?",opts:["Да","Нет","Пока думаем"]},
+  {id:"realtext",type:"text",label:"Какими?",hint:"Например: пройдёшь 5 уровней — идём в кино.",short:true}
+ ]},
+ {name:"Детали", title:"Последние детали",qs:[
+  {id:"device",type:"many",label:"На чём ребёнок будет заниматься?",opts:["Планшет","Телефон","Компьютер"]},
+  {id:"report",type:"one",label:"Где вам удобнее смотреть успехи?",opts:["На устройстве ребёнка","Переносить к себе по коду","Пока не знаю"]},
+  {id:"deadline",type:"text",label:"К какому сроку нужна игра?",hint:"Например: к началу следующей четверти.",short:true},
+  {id:"parent",type:"text",label:"Как к вам обращаться?",short:true},
+  {id:"consent",type:"consent"}
+ ]}
+];
+
+/* ===== СОСТОЯНИЕ (черновик сохраняется на этом устройстве) ===== */
+const DKEY="game-anketa-draft";
+let A={}, step=0, done=false;
+try{const r=localStorage.getItem(DKEY); if(r){const d=JSON.parse(r);A=d.A||{};step=Math.min(d.step||0,STEPS.length-1);}}catch(e){}
+const keep=()=>{try{localStorage.setItem(DKEY,JSON.stringify({A,step}));}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const toast=t=>{const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),2200);};
+
+function renderSteps(){
+  $("#steps").innerHTML=STEPS.map((s,i)=>`<span class="${done||i<step?"done":i===step?"on":""}">${i+1}. ${s.name}</span>`).join("")+
+   `<span class="${done?"on":""}">Отправка</span>`;
+}
+function qHTML(q){
+  const v=A[q.id];
+  if(q.type==="text") return `<div class="q"><label for="f-${q.id}">${q.label}</label>${q.hint?`<small>${q.hint}</small>`:""}
+    <input type="text" id="f-${q.id}" data-id="${q.id}" value="${esc(v)}" ${q.short?'style="max-width:420px"':""}></div>`;
+  if(q.type==="area") return `<div class="q"><label for="f-${q.id}">${q.label}</label>${q.hint?`<small>${q.hint}</small>`:""}
+    <textarea id="f-${q.id}" data-id="${q.id}">${esc(v)}</textarea></div>`;
+  if(q.type==="one"||q.type==="many"){
+    const opts=q.opts||Object.keys(q.colors);const sel=q.type==="one"?[v]:(v&&v.list)||[];
+    return `<div class="q" role="group" aria-labelledby="l-${q.id}"><span class="lbl" id="l-${q.id}">${q.label}</span>
+     ${q.type==="many"?'<small>Можно выбрать несколько.</small>':""}
+     <div class="chips">${opts.map(o=>`<button type="button" class="chip" data-q="${q.id}" data-v="${esc(o)}" aria-pressed="${sel.includes(o)}">${q.colors?`<span class="sw" style="background:${q.colors[o]}"></span>`:""}${esc(o)}</button>`).join("")}</div>
+     ${q.other?`<input type="text" id="f-${q.id}-other" data-other="${q.id}" placeholder="Другое — впишите своё" value="${esc(v&&v.other)}">`:""}</div>`;
+  }
+  if(q.type==="consent") return `<div class="q"><label class="check"><input type="checkbox" id="f-consent" ${A.consent?"checked":""}>
+    <span>Согласен(на) на обработку указанных в анкете данных для создания игры${CONFIG.policyUrl?` (<a href="${CONFIG.policyUrl}" target="_blank" rel="noopener">политика обработки данных</a>)`:""}.</span></label>
+    <p class="err" id="cerr" hidden>Отметьте согласие, чтобы перейти к отправке.</p></div>`;
+}
+function render(){
+  renderSteps();
+  $("#back").hidden=step===0&&!done;
+  if(done) return renderSend();
+  const s=STEPS[step];
+  $("#form").innerHTML=`<section class="sheet"><h2>${s.title}</h2>${s.note?`<p class="note">${s.note}</p>`:""}${s.qs.map(qHTML).join("")}</section>`;
+  $("#next").hidden=false;$("#next").textContent=step===STEPS.length-1?"Проверить и отправить":"Дальше";
+  $("#form").querySelectorAll("[data-id]").forEach(el=>el.oninput=()=>{A[el.dataset.id]=el.value;keep();});
+  $("#form").querySelectorAll("[data-other]").forEach(el=>el.oninput=()=>{const id=el.dataset.other;A[id]=A[id]||{list:[]};A[id].other=el.value;keep();});
+  $("#form").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{
+    const q=STEPS[step].qs.find(x=>x.id===b.dataset.q),val=b.dataset.v;
+    if(q.type==="one"){A[q.id]=A[q.id]===val?"":val;}
+    else{A[q.id]=A[q.id]||{list:[]};const L=A[q.id].list;const i=L.indexOf(val);i<0?L.push(val):L.splice(i,1);}
+    keep();
+    b.parentElement.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",q.type==="one"?String(A[q.id]===c.dataset.v):String(A[q.id].list.includes(c.dataset.v))));
+  });
+  const c=$("#f-consent"); if(c) c.onchange=()=>{A.consent=c.checked;keep();$("#cerr").hidden=true;};
+}
+
+/* ===== ТЕКСТ ДЛЯ ОТПРАВКИ ===== */
+function val(q){
+  const v=A[q.id];
+  if(!v) return "";
+  if(typeof v==="string") return v.trim();
+  return [...(v.list||[]),v.other&&v.other.trim()].filter(Boolean).join(", ");
+}
+function buildText(){
+  let out="АНКЕТА: ИГРА ДЛЯ РЕБЁНКА\n";
+  STEPS.forEach(s=>{
+    const rows=s.qs.filter(q=>q.type!=="consent").map(q=>[q.label,val(q)]).filter(r=>r[1]);
+    if(rows.length) out+=`\n— ${s.title.toUpperCase()} —\n`+rows.map(([l,v])=>`${l.replace(/\?$/,"")}: ${v}`).join("\n")+"\n";
+  });
+  out+="\nСогласие на обработку данных: да";
+  return out;
+}
+function renderSend(){
+  const text=buildText();
+  $("#next").hidden=true;
+  $("#form").innerHTML=`<section class="sheet send"><h2>Почти готово</h2>
+   <p>Проверьте ответы. Кнопка ниже откроет Telegram: выберите чат <span class="handle">@${CONFIG.telegram}</span> и отправьте сообщение. Если Telegram не открылся, скопируйте ответы и вставьте их в чат вручную.</p>
+   <div class="summary" id="sum">${esc(text)}</div>
+   <div class="chips">
+    <button class="btn" id="share" type="button">Отправить в Telegram</button>
+    <button class="btn ghost" id="copy" type="button">Скопировать ответы</button>
+   </div>
+   <p class="muted" style="font-size:14px">Фото обложки учебника можно отправить следом в тот же чат.</p></section>`;
+  const copy=async()=>{try{await navigator.clipboard.writeText(text);toast("Ответы скопированы");return true;}catch(e){
+    const r=document.createRange();r.selectNodeContents($("#sum"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Выделено — нажмите «Копировать»");return false;}};
+  $("#copy").onclick=copy;
+  $("#share").onclick=async()=>{
+    if(navigator.share){try{await navigator.share({text});return;}catch(e){if(e&&e.name==="AbortError")return;}}
+    await copy();
+    const a=document.createElement("a");a.href=`https://t.me/${CONFIG.telegram}`;a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
+  };
+}
+
+$("#next").onclick=()=>{
+  if(step===STEPS.length-1){if(!A.consent){$("#cerr").hidden=false;return;}done=true;}
+  else step++;
+  keep();render();window.scrollTo({top:0,behavior:"smooth"});
+};
+$("#back").onclick=()=>{if(done)done=false;else if(step>0)step--;keep();render();window.scrollTo({top:0});};
+render();
+</script>
+
+</body></html>
